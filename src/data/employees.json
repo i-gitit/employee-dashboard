@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1",
+    "name": "Priya Sharma",
+    "email": "priya.sharma@company.com",
+    "department": "Engineering",
+    "position": "Senior Software Engineer",
+    "joinDate": "2022-03-15",
+    "skills": ["React", "TypeScript", "Node.js", "AWS"],
+    "leavesAvailed": 8,
+    "leavesAvailable": 12,
+    "address": {
+      "street": "123 MG Road",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zipCode": "560001"
+    },
+    "phone": "+91-9876543210"
+  },
+  {
+    "id": "2",
+    "name": "Rahul Verma",
+    "email": "rahul.verma@company.com",
+    "department": "Marketing",
+    "position": "Marketing Manager",
+    "joinDate": "2021-06-10",
+    "skills": ["Digital Marketing", "SEO", "Content Strategy", "Analytics"],
+    "leavesAvailed": 12,
+    "leavesAvailable": 8,
+    "address": {
+      "street": "456 Connaught Place",
+      "city": "Delhi",
+      "state": "Delhi",
+      "zipCode": "110001"
+    },
+    "phone": "+91-9876543211"
+  },
+  {
+    "id": "3",
+    "name": "Ananya Patel",
+    "email": "ananya.patel@company.com",
+    "department": "Engineering",
+    "position": "Frontend Developer",
+    "joinDate": "2023-01-20",
+    "skills": ["React", "CSS", "JavaScript", "Figma"],
+    "leavesAvailed": 5,
+    "leavesAvailable": 15,
+    "address": {
+      "street": "789 SG Highway",
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "zipCode": "380015"
+    },
+    "phone": "+91-9876543212"
+  },
+  {
+    "id": "4",
+    "name": "Vikram Singh",
+    "email": "vikram.singh@company.com",
+    "department": "Sales",
+    "position": "Sales Executive",
+    "joinDate": "2020-11-05",
+    "skills": ["Negotiation", "CRM", "Client Relations", "Sales Strategy"],
+    "leavesAvailed": 15,
+    "leavesAvailable": 5,
+    "address": {
+      "street": "321 MI Road",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "zipCode": "302001"
+    },
+    "phone": "+91-9876543213"
+  },
+  {
+    "id": "5",
+    "name": "Meera Iyer",
+    "email": "meera.iyer@company.com",
+    "department": "HR",
+    "position": "HR Manager",
+    "joinDate": "2019-08-12",
+    "skills": ["Recruitment", "Employee Relations", "HR Policy", "Training"],
+    "leavesAvailed": 10,
+    "leavesAvailable": 10,
+    "address": {
+      "street": "555 Anna Salai",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "zipCode": "600002"
+    },
+    "phone": "+91-9876543214"
+  }
+]
