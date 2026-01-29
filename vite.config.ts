@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/',
+  base: '/employee-dashboard/',
   plugins: [react(), tailwindcss(),  tsconfigPaths(),],
   resolve: {
     alias: {
