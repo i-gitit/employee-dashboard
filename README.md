@@ -4,6 +4,14 @@ A modern employee management dashboard built with React, TypeScript, and Vite, f
 
 ---
 
+## Live Demo
+
+👉 [https://i-gitit.github.io/employee-dashboard/](https://i-gitit.github.io/employee-dashboard/)
+
+Deployed via GitHub Pages using `gh-pages`.
+
+---
+
 ## Features
 
 - **Employee Table**
