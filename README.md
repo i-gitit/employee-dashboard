@@ -18,7 +18,7 @@ A modern employee management dashboard built with React, TypeScript, and Vite, f
   - View employee details in a modal
 
 - **Tech Stack**
-  - React 18 + TypeScript
+  - React 19 + TypeScript
   - Vite for fast dev & build
   - TanStack Query (React Query) for data fetching & caching
   - React Router DOM for routing
