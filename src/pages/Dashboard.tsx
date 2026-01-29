@@ -25,10 +25,7 @@ export const Dashboard = () => {
   const [sortBy, setSortBy] = useState<'name' | 'joinDate' | 'department'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  // const sortSearchFilterApplied = searchTerm || department !== 'all' || sortBy !== 'name' || sortOrder !== 'asc';
   const isDefaultFilters = !searchTerm && department === 'all' && sortBy === 'name' && sortOrder === 'asc';
-
-// use isDefaultFilters instead of sortSearchFilterApplied
 
   // Get unique departments
   const departments = useMemo(() => {

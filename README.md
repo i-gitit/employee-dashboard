@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Employee Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern employee management dashboard built with React, TypeScript, and Vite, featuring employee listing, search, filtering, and leave balance visualization.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Employee Table**
+  - Desktop table with columns: Employee, Position, Department, Join Date, Actions
+  - Responsive card view on mobile devices
+  - Search by name, email, and department
+  - Department and sort filtering
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Dashboard & KPIs**
+  - Employee count and filters
+  - Responsive Pie chart for leave balance
+  - View employee details in a modal
 
-## Expanding the ESLint configuration
+- **Tech Stack**
+  - React 18 + TypeScript
+  - Vite for fast dev & build
+  - TanStack Query (React Query) for data fetching & caching
+  - React Router DOM for routing
+  - Shadcn UI + Tailwind CSS for components & styling
+  - React Testing Library + Vitest for unit and integration tests
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Clone the project**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   git clone https://github.com/your-username/employee-dashboard.git
+   cd employee-dashboard
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the dev server**
+
+   ```bash
+   npm run dev
+   ```
+
+The app will be available at http://localhost:5173.
+
+---
+
+## Testing
+
+This project uses:
+
+- **Vitest** as the test runner
+- **React Testing Library** for React component testing
+- **@testing-library/user-event** for simulating user interactions
+- **TanStack Query** and QueryClientProvider for testing useEmployees
+
+### How to run tests
+
+```bash
+# Run in watch mode (default)
+npm run test
+
+# Open interactive test UI (recommended)
+npm run test:ui
+
+# Run with coverage
+npm run test:coverage
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Test Coverage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Tests are written at three levels:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **EmployeeTable.test.tsx** – Component renders correctly in desktop/mobile.
+- **useEmployees.test.tsx** – Custom hook returns correct data, loading, error states.
+- **Dashboard.test.tsx** – Integration: page renders, filters, sorts, shows skeletons and errors.
+
