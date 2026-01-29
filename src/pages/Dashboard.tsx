@@ -1,9 +1,18 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEmployees } from '../hooks/useEmployees';
-import { EmployeeList } from '../components/EmployeeList';
+import { EmployeeTable } from '../components/EmployeeTable';
 import { SearchBar } from '../components/SearchBar';
-import { FilterSort } from '../components/FilterSort';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
+import { Button } from '../components/ui/button';
+import { Skeleton } from '../components/ui/skeleton';
+import { AlertCircle } from 'lucide-react';
 import { filterEmployees } from '../utils/filterEmployees';
 import { sortEmployees } from '../utils/sortEmployees';
 
@@ -40,6 +49,48 @@ export const Dashboard = () => {
     setSortOrder('asc');
   };
 
+  // Loading skeleton for table
+  const TableSkeleton = () => (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-b bg-muted/50">
+            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-20" />
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-16" />
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-20" />
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-16" />
+            </th>
+            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-16" />
+            </th>
+            <th className="text-right py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
+              <Skeleton className="h-4 w-12" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {[...Array(6)].map((_, i) => (
+            <tr key={i} className="border-b">
+              <td className="py-3 px-4"><Skeleton className="h-6 w-32" /></td>
+              <td className="py-3 px-4"><Skeleton className="h-6 w-24" /></td>
+              <td className="py-3 px-4"><Skeleton className="h-6 w-20" /></td>
+              <td className="py-3 px-4"><Skeleton className="h-6 w-28" /></td>
+              <td className="py-3 px-4"><Skeleton className="h-6 w-32" /></td>
+              <td className="py-3 px-4 text-right"><Skeleton className="h-8 w-20" /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -67,24 +118,79 @@ export const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="space-y-6">
-          {/* Search Bar */}
-          <SearchBar
-            value={searchTerm}
-            onChange={setSearchTerm}
-            placeholder="Search by name, email, or position..."
-          />
+          {/* Compact Controls Row */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-card border rounded-lg p-4">
+            {/* Search */}
+            <div className="flex-1 w-full">
+              <SearchBar
+                value={searchTerm}
+                onChange={setSearchTerm}
+                placeholder="Search by name, email..."
+              />
+            </div>
 
-          {/* Filter and Sort */}
-          <FilterSort
-            department={department}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            onDepartmentChange={setDepartment}
-            onSortByChange={setSortBy}
-            onSortOrderChange={setSortOrder}
-            onReset={handleReset}
-            departments={departments}
-          />
+            {/* Department Filter */}
+            <div className="min-w-40">
+              <Select value={department} onValueChange={setDepartment}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="All Departments" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Departments</SelectItem>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept} value={dept}>
+                      {dept}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Sort By */}
+            <div className="min-w-40">
+              <Select 
+                value={sortBy} 
+                onValueChange={(value) => setSortBy(value as 'name' | 'joinDate' | 'department')}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="name">Sort by Name</SelectItem>
+                  <SelectItem value="joinDate">Sort by Join Date</SelectItem>
+                  <SelectItem value="department">Sort by Department</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Sort Order */}
+            <div className="min-w-40">
+              <Select 
+                value={sortOrder} 
+                onValueChange={(value) => setSortOrder(value as 'asc' | 'desc')}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Order" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="asc">Ascending</SelectItem>
+                  <SelectItem value="desc">Descending</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Reset Button */}
+            {(searchTerm || department !== 'all' || sortBy !== 'name' || sortOrder !== 'asc') && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleReset}
+                className="self-start"
+              >
+                Reset
+              </Button>
+            )}
+          </div>
 
           {/* Results Count */}
           {!isLoading && !isError && (
@@ -93,13 +199,33 @@ export const Dashboard = () => {
             </div>
           )}
 
-          {/* Employee List */}
-          <EmployeeList
-            employees={processedEmployees}
-            isLoading={isLoading}
-            isError={isError}
-            onViewDetails={handleViewDetails}
-          />
+          {/* Employee Table */}
+          {isLoading ? (
+            <TableSkeleton />
+          ) : isError ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Failed to load employees</h3>
+              <p className="text-muted-foreground">
+                There was an error loading the employee data. Please try again later.
+              </p>
+            </div>
+          ) : processedEmployees.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="rounded-full bg-muted p-6 mb-4">
+                <AlertCircle className="h-12 w-12 text-muted-foreground" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">No employees found</h3>
+              <p className="text-muted-foreground">
+                Try adjusting your search or filter criteria.
+              </p>
+            </div>
+          ) : (
+            <EmployeeTable
+              employees={processedEmployees}
+              onViewDetails={handleViewDetails}
+            />
+          )}
         </div>
       </main>
     </div>
