@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename="/employee-dashboard">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/employee/:id" element={<DetailPage />} />
