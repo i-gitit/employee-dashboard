@@ -134,7 +134,7 @@ describe('useEmployees hook', () => {
     vi.mocked(fetchEmployees).mockResolvedValue(mockEmployees);
 
     // Act
-    const { result, rerender, unmount } = renderHook(() => useEmployees(), { wrapper });
+    const { result, rerender } = renderHook(() => useEmployees(), { wrapper });
 
     // Wait for data
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

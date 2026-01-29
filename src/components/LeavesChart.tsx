@@ -6,10 +6,6 @@ interface LeavesChartProps {
   leavesAvailable: number;
 }
 
-const COLORS = {
-  leavesAvailed: '',
-  leavesAvailable: '',
-};
 
 export const LeavesChart = ({ leavesAvailed, leavesAvailable }: LeavesChartProps) => {
   const data = [
