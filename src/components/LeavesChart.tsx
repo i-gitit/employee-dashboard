@@ -6,10 +6,15 @@ interface LeavesChartProps {
   leavesAvailable: number;
 }
 
+const COLORS = {
+  leavesAvailed: '',
+  leavesAvailable: '',
+};
+
 export const LeavesChart = ({ leavesAvailed, leavesAvailable }: LeavesChartProps) => {
   const data = [
-    { name: 'Leaves Availed', value: leavesAvailed, color: 'hsl(var(--destructive))' },
-    { name: 'Leaves Available', value: leavesAvailable, color: 'hsl(var(--primary))' },
+    { name: 'Leaves Availed', value: leavesAvailed, color: "#e7000b" },
+    { name: 'Leaves Available', value: leavesAvailable, color: "#000000" },
   ];
 
   const totalLeaves = leavesAvailed + leavesAvailable;
@@ -30,9 +35,6 @@ export const LeavesChart = ({ leavesAvailed, leavesAvailable }: LeavesChartProps
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, value, percent }) => 
-                `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
-              }
               outerRadius={80}
               fill="#8884d8"
               dataKey="value"

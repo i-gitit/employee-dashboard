@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEmployees } from '../hooks/useEmployees';
-import { EmployeeTable } from '../components/EmployeeTable';
+import { EmployeeTable, TableSkeleton } from '../components/EmployeeTable';
 import { SearchBar } from '../components/SearchBar';
 import {
   Select,
@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from '../components/ui/select';
 import { Button } from '../components/ui/button';
-import { Skeleton } from '../components/ui/skeleton';
 import { AlertCircle } from 'lucide-react';
 import { filterEmployees } from '../utils/filterEmployees';
 import { sortEmployees } from '../utils/sortEmployees';
@@ -26,9 +25,14 @@ export const Dashboard = () => {
   const [sortBy, setSortBy] = useState<'name' | 'joinDate' | 'department'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
+  // const sortSearchFilterApplied = searchTerm || department !== 'all' || sortBy !== 'name' || sortOrder !== 'asc';
+  const isDefaultFilters = !searchTerm && department === 'all' && sortBy === 'name' && sortOrder === 'asc';
+
+// use isDefaultFilters instead of sortSearchFilterApplied
+
   // Get unique departments
   const departments = useMemo(() => {
-    const depts = employees.map(emp => emp.department);
+    const depts = employees.map((emp) => emp.department);
     return Array.from(new Set(depts)).sort();
   }, [employees]);
 
@@ -49,53 +53,11 @@ export const Dashboard = () => {
     setSortOrder('asc');
   };
 
-  // Loading skeleton for table
-  const TableSkeleton = () => (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="border-b bg-muted/50">
-            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-20" />
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-16" />
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-20" />
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-16" />
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-16" />
-            </th>
-            <th className="text-right py-3 px-4 font-medium text-sm uppercase tracking-wider text-muted-foreground">
-              <Skeleton className="h-4 w-12" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {[...Array(6)].map((_, i) => (
-            <tr key={i} className="border-b">
-              <td className="py-3 px-4"><Skeleton className="h-6 w-32" /></td>
-              <td className="py-3 px-4"><Skeleton className="h-6 w-24" /></td>
-              <td className="py-3 px-4"><Skeleton className="h-6 w-20" /></td>
-              <td className="py-3 px-4"><Skeleton className="h-6 w-28" /></td>
-              <td className="py-3 px-4"><Skeleton className="h-6 w-32" /></td>
-              <td className="py-3 px-4 text-right"><Skeleton className="h-8 w-20" /></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Employee Dashboard</h1>
@@ -103,14 +65,6 @@ export const Dashboard = () => {
                 Manage and view employee information
               </p>
             </div>
-            {!isLoading && !isError && (
-              <div className="text-right">
-                <p className="text-2xl font-bold">{processedEmployees.length}</p>
-                <p className="text-sm text-muted-foreground">
-                  {processedEmployees.length === 1 ? 'Employee' : 'Employees'}
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </header>
@@ -118,7 +72,6 @@ export const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="space-y-6">
-          {/* Compact Controls Row */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-card border rounded-lg p-4">
             {/* Search */}
             <div className="flex-1 w-full">
@@ -130,7 +83,7 @@ export const Dashboard = () => {
             </div>
 
             {/* Department Filter */}
-            <div className="min-w-40">
+            <div className="min-w-full sm:min-w-40">
               <Select value={department} onValueChange={setDepartment}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Departments" />
@@ -147,9 +100,9 @@ export const Dashboard = () => {
             </div>
 
             {/* Sort By */}
-            <div className="min-w-40">
-              <Select 
-                value={sortBy} 
+            <div className="min-w-full sm:min-w-40">
+              <Select
+                value={sortBy}
                 onValueChange={(value) => setSortBy(value as 'name' | 'joinDate' | 'department')}
               >
                 <SelectTrigger className="w-full">
@@ -164,9 +117,9 @@ export const Dashboard = () => {
             </div>
 
             {/* Sort Order */}
-            <div className="min-w-40">
-              <Select 
-                value={sortOrder} 
+            <div className="min-w-full sm:min-w-40">
+              <Select
+                value={sortOrder}
                 onValueChange={(value) => setSortOrder(value as 'asc' | 'desc')}
               >
                 <SelectTrigger className="w-full">
@@ -180,10 +133,10 @@ export const Dashboard = () => {
             </div>
 
             {/* Reset Button */}
-            {(searchTerm || department !== 'all' || sortBy !== 'name' || sortOrder !== 'asc') && (
-              <Button 
-                variant="outline" 
-                size="sm" 
+            {!isDefaultFilters && (
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={handleReset}
                 className="self-start"
               >
